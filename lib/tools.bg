@@ -1,0 +1,43 @@
+#
+Tools library version 0.1
+#
+
+(defn map (lambda list)
+  (defvar size (sizec $list))
+  
+  #starts with 0, ends with size-1#
+  (defvar max (- $size 1))
+  
+  (defvar new_list ())
+  
+  (defvar counter 0)  
+  (defvar current None)
+  (defvar new_val None)
+  (loop (< $counter $max)
+    (current (get $list $counter))
+	(new_val (!lambda ($current)) )
+	(adde $new_list (new_val))
+    (counter (+ $counter 1))
+  )
+  (return $new_list)
+)
+
+(defn filter (predicat list)
+  (defvar size (sizec $list))
+  (defvar max (- $size 1) )
+  
+  (defvar new_list ())
+  (defvar current None)
+  (defvar filt_res None)
+  (defvar counter 0)
+  (loop (< $counter $max)
+	(current (get $list $counter))
+	(filt_res (!predicat ($current)) )
+
+	(if (= $filt_res true)
+	   (adde $new_list $current)
+	)
+	(counter (+ $counter 1))
+  )
+  (return $new_list)
+)

@@ -1,0 +1,24 @@
+
+(defvar ass 2)
+(
+defn show (list)
+(printl (list))
+)
+(
+defn summ (a b)
+(+ (a) (b))
+)
+
+
+(defvar test (1 2 3 4 5 6))
+
+(show! ((test)))
+(printl (size (test)))
+(printl (sizec (test)))
+
+(
+show! (
+	    (summ! (2 54))
+	  )
+
+)

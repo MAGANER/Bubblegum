@@ -1,0 +1,30 @@
+(defn filter (predicat list)
+  (defvar size (sizec $list))
+  (defvar max (- $size 1) )
+  
+  (defvar new_list ())
+  (defvar current None)
+  (defvar filt_res None)
+  (defvar counter 0)
+  (loop (< $counter $max)
+	(current (get $list $counter))
+	(filt_res (!predicat ($current)) )
+
+	(if (= $filt_res true)
+	   (adde $new_list $current)
+	)
+	(counter (+ $counter 1))
+  )
+  (return $new_list)
+)
+
+
+(defn more1 (a)
+  (if (> $a 4) (return true) (return false))
+)
+
+(defvar list (1 2 3 4 5 6 7 8 9 10))
+
+(
+printl (filter! (more1 $list))
+)

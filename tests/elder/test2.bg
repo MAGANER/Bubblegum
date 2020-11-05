@@ -1,0 +1,3 @@
+(defvar input 1)
+(printl   "d 2!")
+(printl (+ 2 2 (* 4 (/ 6 2) 5 (- 4 3)))

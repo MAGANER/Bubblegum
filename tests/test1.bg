@@ -1,0 +1,24 @@
+(defn lmd ()
+  (printl "hey, hey! i'm lambda!")
+)
+
+(
+defn dert ()
+  (printl "im dert summoned from tt")
+)
+(defn tt ()
+  (dert! ())
+  (printl "im  tt function")
+)
+(
+defn print_smh (a b)
+  (!b ())
+ (tt! ())
+ (if (< $a 2) (return "ass"))
+ (if (> $a 2) (return "sssd"))
+)
+
+
+(defvar a 4)
+(if (< $a 3) (printl "ass"))
+(print_smh! ($a lmd))

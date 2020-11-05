@@ -1,0 +1,7 @@
+(defn summ (a b)
+   (+ (a) (b) 1)
+)
+
+(printl 
+    (summ! (1 23))
+)

@@ -1,0 +1,21 @@
+(defvar list (1 2 3 4 5 6))
+(
+ defn show_list (list)
+ 
+  (defvar s (sizec (list)))
+  
+  (print "size=")
+  (printl (s))
+  (printl "see the list!")
+  
+  (defvar counter 0)
+  (
+   loop (< $counter (- (s) 1))
+     
+	 (counter (+ (counter) 1))
+  )
+
+)
+(show_list! ((list)))
+
+

@@ -1,0 +1,22 @@
+(defvar d (1 2 3 4))
+(printl (d))
+(set 0 "234" (d))
+(printl (d))
+
+(defn test ()
+  (printl "hello, function!")
+)
+
+(defn test1 ()
+  (printl "hello, the same function!")
+  (return (+ 2 2 2 2))
+)
+
+(defvar tt
+   (test1! ())
+)
+(printl (tt))
+
+(printl
+  (+ 2 (test1! ()))
+)

@@ -1,0 +1,33 @@
+(defn inc (a)
+  (+ $a 1)
+)
+(defvar haha 232)
+(defn map (lambda list)
+  (defvar size (sizec $list))
+  
+  #starts with 0, ends with size-1#
+  (defvar max (- $size 1))
+  
+  (defvar new_list ())
+  
+  (defvar counter 0)  
+  (defvar current None)
+  (defvar new_val None)
+  (loop (< $counter $max)
+    (current (get $list $counter))
+	(new_val (!lambda ($current)) )
+	(adde $new_list (new_val))
+    (counter (+ $counter 1))
+  )
+  (new_list)
+)
+
+
+(defvar list (1 2 3 4 5 5 6))
+
+
+
+(defvar new_wow_list (map! (inc $list)))
+(printl $new_wow_list)
+
+

@@ -1,0 +1,5 @@
+(printl "show some numbers:")
+(defvar test 4)
+(defvar list_var (+ 2 (test)))
+(printl (test))
+(printl (list_var))

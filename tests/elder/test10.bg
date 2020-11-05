@@ -1,0 +1,7 @@
+(
+defn test (a)
+#  (if (> $a 2) (printl "ass"))
+  (if (= $a 2) (printl "a equals 2"))#
+)
+
+(test! (2))

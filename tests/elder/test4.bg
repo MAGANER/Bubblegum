@@ -1,0 +1,8 @@
+create new var
+(defvar counter 0)
+
+(
+loop (< (counter) 10)
+(printl (counter))
+(counter (+ (counter) 1))
+)

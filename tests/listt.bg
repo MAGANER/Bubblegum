@@ -1,0 +1,41 @@
+(defvar test (   ))
+#(set 0 1 $test)#
+(printl $test)
+
+(defvar PI 3.14)
+(printl (+ $PI 0.1 4.5))
+
+(defn summ (a b c)
+  (+ $a $b $c)
+)
+
+#(print $&(summ! (1 2 3)))#
+
+(defvar list1 (1 2 3))
+(defvar list2 (4 5 6 7))
+(
+  defvar list3 (concat $list1 $list2 (8 9 10))
+)
+
+(set 0 "wait" $list3)
+(printl $list3)
+
+(adde $list3 "fuck you all")
+(printl $list3)
+(addb $list3 "fuck you too")
+(printl $list3)
+
+
+(printl (get $list3 0))
+
+(
+  defn ff ()
+  (printl "ddd")
+)
+(
+ defn lambda_test (hey)
+   (!hey ())
+)
+
+(ff! ())
+(lambda_test! (ff))

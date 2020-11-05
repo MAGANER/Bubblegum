@@ -1,0 +1,9 @@
+(defvar shit (1 2))
+(defvar ss (1 23 22 () 2))
+(printl 
+    (concat (shit) (ss))
+)
+
+(printl
+    (concat (1 2 3) (shit))
+)

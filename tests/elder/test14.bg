@@ -1,0 +1,9 @@
+(defvar test 2)
+
+(
+ defn hail ()
+ (printl (main~test1))
+)
+
+(defvar test1 4)
+(hail! ())

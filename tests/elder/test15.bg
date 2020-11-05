@@ -1,0 +1,33 @@
+(
+defn test (lambda)
+   (!lambda ())
+)
+(
+defn well (lambda arg)
+  (!lambda ((arg)))
+)
+
+(defn test1 ()
+  (printl "i am lambda")
+)
+(
+defn test2 ()
+(printl "lambda says farewell")
+)
+(
+defn test3 (a)
+(printl "lambda says " (a))
+)
+
+(test! (test1))
+(test! (test2))
+
+(well! (test3 "hello"))
+(well! (test3 1))
+(printl " ")
+(well! (test3 245))
+
+
+
+
+
