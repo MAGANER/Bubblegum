@@ -11,6 +11,7 @@ VirtualMachine::VirtualMachine()
     current_function_map = &modules["main"]->functions;
 
     function_computation_on = false;
+	break_computation_and_return = false;
 }
 VirtualMachine::~VirtualMachine()
 {
@@ -316,30 +317,14 @@ string VirtualMachine::process_list(const string& head,
 		 */
 		case HeadType::_return:
 		{
-			if(args.size() != 1)
-			{
-				svector adds(args.begin(),args.end());
-				adds.push_back("can not return more than 1 argument!");
-				print_error(ErrorPrinter::IncorrectArgs,adds);
-			}
-			string val = args[0];
-			int type = get_type(val);
-			if(type == Expr) return compute_expr(val);
-			if(type == List)
-			{
-				svector elems = separate_by_space(val);
-				string head = elems[0];
-				int head_type = get_head_type(head);
-				
-				if(head_type == -1)
-					return val;
-				else
-					return compute(val);
-			}
-			
-			return val;
+			return compute_return(args);
 		}
 		break;
+		case HeadType::_breturn:
+		{
+			break_computation_and_return = true;
+			return compute_return(args);
+		};
 	    case HeadType::_import:
 	    {
             import_modules(args);
@@ -413,6 +398,7 @@ int VirtualMachine::get_head_type(const string& head)
 	if(head == "concat")return HeadType::_concat_list;
 	if(head == "set")   return HeadType::_set;
 	if(head == "return")return HeadType::_return;
+	if(head == "breturn")return HeadType::_breturn;
 	if(is_var_calling_head(head)) return HeadType::var;
 	if(head == "adde" ) return HeadType::add_to_list_end;
     if(head == "addb")  return HeadType::add_to_list_begin;
@@ -1510,7 +1496,10 @@ string VirtualMachine::compute_function(const string& head, const svector& _args
     for(auto& list:fn->get_body())
     {
         res = compute(list);
+		if(break_computation_and_return)
+			break;
     }
+	break_computation_and_return = true;
     current_memory->clear();
     sub_functions_memory.clear();
     current_memory = &modules["main"]->memory;
@@ -1593,7 +1582,10 @@ string VirtualMachine::compute_sub_function(const string& head, const svector& _
     for(auto& list:fn->get_body())
     {
         res = compute(list);
+		if(break_computation_and_return)
+			break;
     }
+	break_computation_and_return = false;
     current_sub_function.clear();
     sub_functions_memory[fn_name]->clear();
     return res;
@@ -1762,4 +1754,29 @@ Memory* VirtualMachine::get_current_memory()
     {
         return sub_functions_memory[current_sub_function];
     }
+}
+string VirtualMachine::compute_return(const svector& args)
+{
+	if(args.size() != 1)
+	{
+		svector adds(args.begin(),args.end());
+		adds.push_back("can not return more than 1 argument!");
+		print_error(ErrorPrinter::IncorrectArgs,adds);
+	}
+	string val = args[0];
+	int type = get_type(val);
+	if(type == Expr) return compute_expr(val);
+	if(type == List)
+	{
+		svector elems = separate_by_space(val);
+		string head = elems[0];
+		int head_type = get_head_type(head);
+				
+		if(head_type == -1)
+			return val;
+		else
+			return compute(val);
+	}
+			
+	return val;	
 }

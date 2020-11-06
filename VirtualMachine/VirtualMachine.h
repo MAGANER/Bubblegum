@@ -70,6 +70,7 @@ private:
 		_concat_list,
 		_set,
 		_return,
+		_breturn,
 		_import,
 		list_size_without_computation,
         list_size_with_computation,
@@ -92,6 +93,8 @@ private:
 	bool function_computation_on;
 	map<string,Memory*> sub_functions_memory;
 	string current_sub_function;
+	
+	bool break_computation_and_return;
 public:
 	VirtualMachine();
 	~VirtualMachine();
@@ -179,6 +182,8 @@ private:
 
     string get_variable_value(const string& head);
     string change_memory(const string& head);
+	
+	string compute_return(const svector& args);
 	//.
 
 	//head types
