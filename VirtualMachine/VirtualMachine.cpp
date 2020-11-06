@@ -320,11 +320,6 @@ string VirtualMachine::process_list(const string& head,
 			return compute_return(args);
 		}
 		break;
-		case HeadType::_breturn:
-		{
-			break_computation_and_return = true;
-			return compute_return(args);
-		};
 	    case HeadType::_import:
 	    {
             import_modules(args);
@@ -398,7 +393,6 @@ int VirtualMachine::get_head_type(const string& head)
 	if(head == "concat")return HeadType::_concat_list;
 	if(head == "set")   return HeadType::_set;
 	if(head == "return")return HeadType::_return;
-	if(head == "breturn")return HeadType::_breturn;
 	if(is_var_calling_head(head)) return HeadType::var;
 	if(head == "adde" ) return HeadType::add_to_list_end;
     if(head == "addb")  return HeadType::add_to_list_begin;
@@ -1496,10 +1490,7 @@ string VirtualMachine::compute_function(const string& head, const svector& _args
     for(auto& list:fn->get_body())
     {
         res = compute(list);
-		if(break_computation_and_return)
-			break;
     }
-	break_computation_and_return = true;
     current_memory->clear();
     sub_functions_memory.clear();
     current_memory = &modules["main"]->memory;
@@ -1582,10 +1573,7 @@ string VirtualMachine::compute_sub_function(const string& head, const svector& _
     for(auto& list:fn->get_body())
     {
         res = compute(list);
-		if(break_computation_and_return)
-			break;
     }
-	break_computation_and_return = false;
     current_sub_function.clear();
     sub_functions_memory[fn_name]->clear();
     return res;
