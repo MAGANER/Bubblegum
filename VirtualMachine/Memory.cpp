@@ -125,9 +125,19 @@ string Memory::get_value(const string& var_name, int type)
 			return val;
 		}
 		break;
-	    case None:
-	        return "None";
+	    case None: return "None";
+		default:
+		{
+			svector adds = {"passed code type doesn't exist!"};
+			print_error(ErrorPrinter::IncorrectType,adds);
+		};
 	}
+	//About TDM-GCC warning note:
+	/*
+		default statement breaks the programm
+		execution, so control will never reach
+		the end of this function
+	*/
 }
 void Memory::destroy_variable(const string& name)
 {

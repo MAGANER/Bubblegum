@@ -153,12 +153,25 @@ string VirtualMachine::compute_expr(const string& val)
     {
         case ExprHeadType::dont_process_list: return get_substr(val,2,val.size());
         case ExprHeadType::get_var_val: return get_variable_value(val);
+		default:
+		{
+			svector adds = {"type of expression is incorrect!:"+to_string(type)};
+			print_error(ErrorPrinter::IncorrectType,adds);
+		};
     };
+	//About TDM-GCC warning note:
+	/*
+		default statement breaks the programm
+		execution, so control will never reach
+		the end of this function
+	*/
 }
 int VirtualMachine::get_expr_type(const string& val)
 {
     if(val[1] == '&') return ExprHeadType::dont_process_list;
     if(*val.begin() == '$')return ExprHeadType::get_var_val;
+	
+	return -1;
 }
 string VirtualMachine::process_list(const string& head,
 				          		    const svector& args)
@@ -363,6 +376,12 @@ string VirtualMachine::process_list(const string& head,
 		}
 		break;
 	}
+	//About TDM-GCC warning note:
+	/*
+		default statement breaks the programm
+		execution, so control will never reach
+		the end of this function
+	*/
 }
 int VirtualMachine::get_head_type(const string& head)
 {
@@ -516,6 +535,12 @@ string VirtualMachine::compute_add(const svector& args)
 		print_error(ErrorPrinter::IncorrectType,svector(vals.begin(),vals.end())); 
 		break;
 	}
+	//About TDM-GCC warning note:
+	/*
+		default statement breaks the programm
+		execution, so control will never reach
+		the end of this function
+	*/
 }
 template<class T>
 string VirtualMachine::add_vals(const svector& vals)
@@ -529,7 +554,7 @@ string VirtualMachine::add_vals(const svector& vals)
 	
 		return to_string(summ);
 	}
-	if(typeid(T) == typeid(float))
+	else if(typeid(T) == typeid(float))
 	{
 		vector<float> _vals = get_float_val_vec(vals);
 		float summ = 0;
@@ -538,6 +563,7 @@ string VirtualMachine::add_vals(const svector& vals)
 	
 		return to_string(summ);
 	}
+	//TODO::return default value
 }
 string VirtualMachine::add_strings(const svector& vals)
 {
@@ -563,10 +589,14 @@ string VirtualMachine::compute_substract(const svector& args)
 		case Float:
 			return distract_vals<float>(vals);
 		break;
-		default:
-			print_error(ErrorPrinter::IncorrectType,svector(vals.begin(),vals.end())); 
-		break;	
+		default: print_error(ErrorPrinter::IncorrectType,svector(vals.begin(),vals.end())); 	
 	}
+	//About TDM-GCC warning note:
+	/*
+		default statement breaks the programm
+		execution, so control will never reach
+		the end of this function
+	*/
 }
 template<class T>
 string VirtualMachine::distract_vals(const svector& vals)
@@ -574,21 +604,22 @@ string VirtualMachine::distract_vals(const svector& vals)
 	if(typeid(T) == typeid(int))
 	{
 		vector<int> _vals = get_integer_val_vec(vals);
-		T dist = _vals[0];
+		int dist = _vals[0];
 		for(int i =1;i<_vals.size();++i)
 			dist-=_vals[i];
 	
 		return to_string(dist);
 	}
-	if(typeid(T) == typeid(float))
+	else if(typeid(T) == typeid(float))
 	{
 		vector<float> _vals = get_float_val_vec(vals);
-		T dist = _vals[0];
+		float dist = _vals[0];
 		for(int i =1;i<_vals.size();++i)
 			dist-=_vals[i];
 	
 		return to_string(dist);
 	}
+	//TODO:: add default return
 }
 
 string VirtualMachine::compute_multiplication(const svector& args)
@@ -611,6 +642,12 @@ string VirtualMachine::compute_multiplication(const svector& args)
 			print_error(ErrorPrinter::IncorrectType,svector(vals.begin(),vals.end())); 
 		break;
 	}
+	//About TDM-GCC warning note:
+	/*
+		default statement breaks the programm
+		execution, so control will never reach
+		the end of this function
+	*/
 }
 template<class T>
 string VirtualMachine::multiplicate_vals(const svector& vals)
@@ -618,7 +655,7 @@ string VirtualMachine::multiplicate_vals(const svector& vals)
 	if(typeid(T) == typeid(int))
 	{
 		vector<int> _vals = get_integer_val_vec(vals);
-		T mult = _vals[0];
+		int mult = _vals[0];
 		for(int i =1;i<_vals.size();++i)
 			mult*=_vals[i];
 	
@@ -627,7 +664,7 @@ string VirtualMachine::multiplicate_vals(const svector& vals)
 	if(typeid(T) == typeid(float))
 	{
 		vector<float> _vals = get_float_val_vec(vals);
-		T mult = _vals[0];
+		float mult = _vals[0];
 		for(int i =1;i<_vals.size();++i)
 			mult-=_vals[i];
 	
@@ -661,22 +698,23 @@ string VirtualMachine::divide_vals(const svector& vals)
 	if(typeid(T) == typeid(int))
 	{
 		vector<int> _vals = get_integer_val_vec(vals);
-		T div = _vals[0];
+		int div = _vals[0];
 		for(int i =1;i<_vals.size();++i)
 			div/=_vals[i];
 	
 		return to_string(div);
 	}
-	if(typeid(T) == typeid(float))
+	else if(typeid(T) == typeid(float))
 	{
 		vector<float> _vals = get_float_val_vec(vals);
-		T div = _vals[0];
+		float div = _vals[0];
 		for(int i =1;i<_vals.size();++i)
 			div/=_vals[i];
 	
 		return to_string(div);
 	}
 }
+
 
 string VirtualMachine::compute_and(const svector& args)
 {
