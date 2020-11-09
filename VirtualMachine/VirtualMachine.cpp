@@ -11,7 +11,6 @@ VirtualMachine::VirtualMachine()
     current_function_map = &modules["main"]->functions;
 
     function_computation_on = false;
-	break_computation_and_return = false;
 }
 VirtualMachine::~VirtualMachine()
 {
@@ -524,7 +523,7 @@ string VirtualMachine::add_vals(const svector& vals)
 	if(typeid(T) == typeid(int))
 	{
 		vector<int> _vals = get_integer_val_vec(vals);
-		T summ;
+		int summ = 0;
 		for(auto val:_vals)
 			summ+=val;
 	
@@ -533,7 +532,7 @@ string VirtualMachine::add_vals(const svector& vals)
 	if(typeid(T) == typeid(float))
 	{
 		vector<float> _vals = get_float_val_vec(vals);
-		T summ;
+		float summ = 0;
 		for(auto val:_vals)
 			summ+=val;
 	
