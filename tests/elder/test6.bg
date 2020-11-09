@@ -2,10 +2,10 @@
 
 (
 loop (< $counter 10)
-  #(
+  (
 	if (= $counter 5)
 	(break)
-  )#
+  )
   (printl $counter)
   (counter (+ $counter 1))
 )

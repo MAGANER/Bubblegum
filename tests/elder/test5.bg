@@ -1,7 +1,0 @@
-(defvar foo (1 2 true "hello,world!" "test"))
-(defvar foo_size 4)
-(defvar foo_counter 0)
-
-(loop (< $foo_counter $foo_size)
-(foo_counter (+ $foo_counter 1))
-)
