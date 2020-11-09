@@ -18,6 +18,7 @@
 #include<vector>
 #include<map>
 #include<typeinfo>
+#include<limits>
 #include"StrFunction.h"
 #include"TypeChecker.h"
 #include"ErrorPrinter.h"
@@ -123,6 +124,12 @@ private:
 	vector<int>   get_integer_val_vec(const svector& vals);
 	vector<float> get_float_val_vec(const svector& vals);
 	vector<bool>  get_bool_val_vec(const svector& vals);
+	
+	template<class T>
+	bool is_val_too_low(T& val);
+	
+	template<class T>
+	bool is_val_too_high(T& val);
 	
 	string compute_add(const svector& args);
 	template<class T>

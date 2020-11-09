@@ -10,7 +10,7 @@ VirtualMachine::VirtualMachine()
 	current_memory = &modules["main"]->memory;
     current_function_map = &modules["main"]->functions;
 
-    function_computation_on = false;
+    function_computation_on = false; 
 }
 VirtualMachine::~VirtualMachine()
 {
@@ -513,6 +513,22 @@ vector<bool>  VirtualMachine::get_bool_val_vec(const svector& vals)
 		_vals.push_back(val=="true"?true:false);
 	return _vals;
 }
+template<class T>
+bool VirtualMachine::is_val_too_low(T& val)
+{
+	if(typeid(T) == typeid(int))
+		return val < numeric_limits<int>::min();
+	if(typeid(T) == typeid(float))
+		return val < numeric_limits<float>::min();
+}
+template<class T>
+bool VirtualMachine::is_val_too_high(T& val)
+{
+	if(typeid(T) == typeid(int))
+		return val > numeric_limits<int>::max();
+	if(typeid(T) == typeid(float))
+		return val > numeric_limits<float>::max();	
+}
 string VirtualMachine::compute_add(const svector& args)
 {
 	pair<svector, vector<int> > data = get_vals_and_types(args);
@@ -550,8 +566,15 @@ string VirtualMachine::add_vals(const svector& vals)
 		vector<int> _vals = get_integer_val_vec(vals);
 		int summ = 0;
 		for(auto val:_vals)
+		{	
+			bool inside_the_limit = is_val_too_low<int>(val) || is_val_too_high<int>(val);
+			if(inside_the_limit)
+			{
+				svector adds = {"type:Integer",to_string(val)};
+				print_error(ErrorPrinter::OutOfLimit,adds);
+			}
 			summ+=val;
-	
+		}
 		return to_string(summ);
 	}
 	else if(typeid(T) == typeid(float))
@@ -559,8 +582,15 @@ string VirtualMachine::add_vals(const svector& vals)
 		vector<float> _vals = get_float_val_vec(vals);
 		float summ = 0;
 		for(auto val:_vals)
+		{
+			bool inside_the_limit = is_val_too_low<float>(val) || is_val_too_high<float>(val);
+			if(inside_the_limit)
+			{
+				svector adds = {"type:Float",to_string(val)};
+				print_error(ErrorPrinter::OutOfLimit,adds);
+			}
 			summ+=val;
-	
+		}
 		return to_string(summ);
 	}
 	//TODO::return default value
@@ -606,8 +636,16 @@ string VirtualMachine::distract_vals(const svector& vals)
 		vector<int> _vals = get_integer_val_vec(vals);
 		int dist = _vals[0];
 		for(int i =1;i<_vals.size();++i)
-			dist-=_vals[i];
-	
+		{
+			auto val = _vals[i];
+			bool inside_the_limit = is_val_too_low<int>(val) || is_val_too_high<int>(val);
+			if(inside_the_limit)
+			{
+				svector adds = {"type:Integer",to_string(val)};
+				print_error(ErrorPrinter::OutOfLimit,adds);
+			}
+			dist-=val;
+		}
 		return to_string(dist);
 	}
 	else if(typeid(T) == typeid(float))
@@ -615,8 +653,16 @@ string VirtualMachine::distract_vals(const svector& vals)
 		vector<float> _vals = get_float_val_vec(vals);
 		float dist = _vals[0];
 		for(int i =1;i<_vals.size();++i)
-			dist-=_vals[i];
-	
+		{
+			auto val = _vals[i];
+			bool inside_the_limit = is_val_too_low<float>(val) || is_val_too_high<float>(val);
+			if(inside_the_limit)
+			{
+				svector adds = {"type:Float",to_string(val)};
+				print_error(ErrorPrinter::OutOfLimit,adds);
+			}
+			dist-=val;
+		}
 		return to_string(dist);
 	}
 	//TODO:: add default return
@@ -657,8 +703,16 @@ string VirtualMachine::multiplicate_vals(const svector& vals)
 		vector<int> _vals = get_integer_val_vec(vals);
 		int mult = _vals[0];
 		for(int i =1;i<_vals.size();++i)
-			mult*=_vals[i];
-	
+		{
+			auto val = _vals[i];
+			bool inside_the_limit = is_val_too_low<int>(val) || is_val_too_high<int>(val);
+			if(inside_the_limit)
+			{
+				svector adds = {"type:Integer",to_string(val)};
+				print_error(ErrorPrinter::OutOfLimit,adds);
+			}
+			mult*=val;
+		}
 		return to_string(mult);
 	}
 	if(typeid(T) == typeid(float))
@@ -666,8 +720,16 @@ string VirtualMachine::multiplicate_vals(const svector& vals)
 		vector<float> _vals = get_float_val_vec(vals);
 		float mult = _vals[0];
 		for(int i =1;i<_vals.size();++i)
-			mult-=_vals[i];
-	
+		{
+			auto val = _vals[i];
+			bool inside_the_limit = is_val_too_low<float>(val) || is_val_too_high<float>(val);
+			if(inside_the_limit)
+			{
+				svector adds = {"type:Float",to_string(val)};
+				print_error(ErrorPrinter::OutOfLimit,adds);
+			}
+			mult-=val;
+		}
 		return to_string(mult);
 	}
 }
@@ -700,8 +762,16 @@ string VirtualMachine::divide_vals(const svector& vals)
 		vector<int> _vals = get_integer_val_vec(vals);
 		int div = _vals[0];
 		for(int i =1;i<_vals.size();++i)
-			div/=_vals[i];
-	
+		{
+			auto val = _vals[i];
+			bool inside_the_limit = is_val_too_low<int>(val) || is_val_too_high<int>(val);
+			if(inside_the_limit)
+			{
+				svector adds = {"type:Integer",to_string(val)};
+				print_error(ErrorPrinter::OutOfLimit,adds);
+			}
+			div/=val;
+		}
 		return to_string(div);
 	}
 	else if(typeid(T) == typeid(float))
@@ -709,13 +779,19 @@ string VirtualMachine::divide_vals(const svector& vals)
 		vector<float> _vals = get_float_val_vec(vals);
 		float div = _vals[0];
 		for(int i =1;i<_vals.size();++i)
-			div/=_vals[i];
-	
+		{
+			auto val = _vals[i];
+			bool inside_the_limit = is_val_too_low<float>(val) || is_val_too_high<float>(val);
+			if(inside_the_limit)
+			{
+				svector adds = {"type:Float",to_string(val)};
+				print_error(ErrorPrinter::OutOfLimit,adds);
+			}
+			div/=val;
+		}
 		return to_string(div);
 	}
 }
-
-
 string VirtualMachine::compute_and(const svector& args)
 {
 	pair<svector, vector<int> > data = get_vals_and_types(args);

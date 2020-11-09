@@ -32,6 +32,7 @@ public:
 		FnDoesntExist,
 		EmptyList,
 		IncorrectExpression,
+		OutOfLimit,
 	};
 	
 	ErrorPrinter();

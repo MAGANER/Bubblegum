@@ -17,6 +17,7 @@ ErrorPrinter::ErrorPrinter()
         {FnDoesntExist,   "function does not exist!"},
         {EmptyList,       "List variable is empty!"},
         {IncorrectExpression, "incorrect expression!"},
+		{OutOfLimit,	  "the value is out of type limit!"},
 	};
 }
 ErrorPrinter::~ErrorPrinter()
