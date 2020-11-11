@@ -1926,6 +1926,7 @@ void VirtualMachine::run_interactive_mode()
 		{
 			string result = compute(command);
 			cout<<result<<endl;
+			command.clear();
 		}
 	}
 }
