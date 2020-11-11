@@ -2,6 +2,7 @@
 using namespace Bubblegum::_VirtualMachine;
 using namespace std;
 
+
 bool is_file_type_correct(const string& name)
 {
 	auto point = find(name.begin(),name.end(),'.');
@@ -16,12 +17,14 @@ int main(int argc,char** argv)
 		exit(-1);
 	}
 	string path = argv[1];
-	if(!is_file_type_correct(path))
+	if(!is_file_type_correct(path) && path != "i")
 	{
 		cout<<"Error#-2"<<endl<<"incorrect file type!";
 		exit(-2);
 	}
 	VirtualMachine machine;
+	if(path == "i")
+		machine.run_interactive_mode();
 	svector script = machine.load_script(path);
 	machine.check_braces_equality(script);
 	machine.run(script,"main");

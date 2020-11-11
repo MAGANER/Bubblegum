@@ -19,6 +19,7 @@
 #include<map>
 #include<typeinfo>
 #include<limits>
+#include<iomanip>
 #include"StrFunction.h"
 #include"TypeChecker.h"
 #include"ErrorPrinter.h"
@@ -98,6 +99,7 @@ public:
 	~VirtualMachine();
 	
 	void run(const svector& script, const string& module_name);
+	void run_interactive_mode();
 	Module* get_module(const string& name);
     svector load_script(const string& path);
     void check_braces_equality(const svector& script);
@@ -203,6 +205,12 @@ private:
 
 	Memory* get_current_memory();
     fn_map_ptr get_current_lambda_map();
+	
+	bool does_list_has_equal_braces_number(const string& list);
+	//.
+	
+	//interactive mode specific methods
+	string get_input();
 	//.
 	
 };

@@ -84,11 +84,8 @@ void VirtualMachine::check_braces_equality(const svector& script)
 	//number of open braces must be equal to close ones' number
 	for(auto& list:script)
 	{
-		int open_number  = count(list.begin(),list.end(),'(');
-		int close_number = count(list.begin(),list.end(),')');
-		
-		bool different   = open_number != close_number;
-		if(different)
+		bool equal = does_list_has_equal_braces_number(list); 
+		if(!equal)
 		{
 			svector adds ={"not equal number of braces!",list};
 			print_error(ErrorPrinter::IncorrectBraces,adds);
@@ -1569,14 +1566,36 @@ string VirtualMachine::compute_function(const string& head, const svector& _args
         else if(arg_type == Expr)arg = compute(arg);
         else if(arg_type == -1)
         {
+			
+			
             //it can be function
             auto is_fn = current_function_map->find(arg);
+			int mod = arg.find("~");
+			bool is_from_module = mod != string::npos; 
             if(is_fn != current_function_map->end())
             {
                 //add it to lambdas
                 string lambda_name = fn->get_args()[curr_arg_number];
                 (*current_lambda_map)[lambda_name] = (*is_fn).second;
             }
+			else if(is_from_module)
+			{
+				string mod_name = get_substr(arg,0,mod);
+				string fn_name  = get_substr(arg,mod+1,arg.size());
+				Module* module = get_module(mod_name);
+				auto is_mod_fn = module->functions.find(fn_name);
+				bool exist = is_mod_fn != module->functions.end();
+				if(exist)
+				{
+					string lambda_name = fn->get_args()[curr_arg_number];
+					(*current_lambda_map)[lambda_name] = (*is_mod_fn).second;
+				}
+				else
+				{
+					svector adds = {arg};
+					print_error(ErrorPrinter::FnDoesntExist,adds);
+				}
+			}
             else
             {
                 svector adds = {arg};
@@ -1653,12 +1672,32 @@ string VirtualMachine::compute_sub_function(const string& head, const svector& _
         {
             //it can be function
             auto is_fn = current_function_map->find(arg);
+			int mod = arg.find("~");
+			bool is_from_module = mod != string::npos; 
             if(is_fn != current_function_map->end())
             {
                 //add it to lambdas
                 string lambda_name = fn->get_args()[curr_arg_number];
                 (*current_lambda_map)[lambda_name] = (*is_fn).second;
             }
+			else if(is_from_module)
+			{
+				string mod_name = get_substr(arg,0,mod);
+				string fn_name  = get_substr(arg,mod+1,arg.size());
+				Module* module = get_module(mod_name);
+				auto is_mod_fn = module->functions.find(fn_name);
+				bool exist = is_mod_fn != module->functions.end();
+				if(exist)
+				{
+					string lambda_name = fn->get_args()[curr_arg_number];
+					(*current_lambda_map)[lambda_name] = (*is_mod_fn).second;
+				}
+				else
+				{
+					svector adds = {arg};
+					print_error(ErrorPrinter::FnDoesntExist,adds);
+				}
+			}
             else
             {
                 svector adds = {arg};
@@ -1880,4 +1919,36 @@ string VirtualMachine::compute_return(const svector& args)
 	}
 			
 	return val;	
+}
+void VirtualMachine::run_interactive_mode()
+{
+	//it runs untill there is no exit command
+	string command;
+	while(true)
+	{
+		cout<<">>";
+		string input = get_input();
+		command+=input;
+		if(does_list_has_equal_braces_number(command))
+		{
+			string result = compute(command);
+			cout<<result<<endl;
+		}
+	}
+}
+string VirtualMachine::get_input()
+{
+	string command;
+	const int size = sizeof(istream)/sizeof(char);
+	char* buffer = new char[size];
+	cin.getline(buffer,size);
+	command = buffer;
+	delete buffer;
+	return command;
+}
+bool VirtualMachine::does_list_has_equal_braces_number(const string& list)
+{
+	int open_number  = count(list.begin(),list.end(),'(');
+	int close_number = count(list.begin(),list.end(),')');
+	return open_number == close_number;
 }
