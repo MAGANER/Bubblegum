@@ -130,12 +130,13 @@ string VirtualMachine::compute(const string& list)
 	bool not_break    = head != "break";
 	bool not_continue = head != "continue";
 	bool not_cycle_management = not_break && not_continue;
+	bool not_exit = head != "exit";
 
 	bool not_curr_var =  get_current_memory()->does_exist(head) == -1;
 	bool not_other_var = head.find("~") == string::npos;
 	bool not_var = not_curr_var && not_other_var;
 
-	if(args.empty() && not_var && not_cycle_management)
+	if(args.empty() && not_var && not_cycle_management && not_exit)
     {
 		svector adds={"it can not get zero arguments!",head,list};
 		print_error(ErrorPrinter::IncorrectArgs,adds);
@@ -355,18 +356,10 @@ string VirtualMachine::process_list(const string& head,
         break;
 		case HeadType::_exit:
 		{
-			if(args.size() > 1)
-			{
-				svector adds = {"exit can take 1 argument only!"};
-				print_error(ErrorPrinter::IncorrectArgs,adds);
-			}
-			string return_code = args[0];
+
+			string return_code = args.empty()?"0":args[0];
 			int type = get_type(return_code);
-			if(type != Integer)
-			{
-				svector adds = {to_string(type),"exit code must be Integer!"};
-				print_error(ErrorPrinter::IncorrectArgs,adds);
-			}
+			if(type != Integer) return_code = "0";
 			
 			int code = atoi(return_code.c_str()); 
 			exit(code);
