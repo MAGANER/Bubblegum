@@ -45,3 +45,19 @@ Sure, value can be computable expression.
 ~~~
 (defn (arg1 argn) (body))
 ~~~
+After defn head there is list of arguments.
+After arguments all commands that will be computed.
+To return value from function, you can use
+~~~
+(return (something))
+~~~
+or
+~~~
+(var_name)
+~~~
+
+# List of all commands
+
+
+
+
