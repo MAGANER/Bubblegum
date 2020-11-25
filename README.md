@@ -57,7 +57,59 @@ or
 ~~~
 
 # List of all commands
-
+printl
+  arguments number: any
+  goal: print arguments and move cursor to new line
+print
+  arguments number: any
+  goal: print arguments
+defvar
+  arguments number: 2
+  goal: create variable
+defn
+  arguments number: 2
+  goal: create function
+exit
+  arguments number: 1
+  goal: break application
+import
+  arguments number: 1
+  goal: import and compute module
+return
+  arguments number: 1
+  goal: return and (if can) compute arg
+if
+  arguments number: 2-3
+  goal: do some action, if condition is true, else do, if there is else-option
+loop
+  arguments number: 2
+  goal: repeat actions, while condition is true
+break
+  arguments number: 0
+  goal: go out of cycle
+continue
+  arguments number: 0
+  goal: return to to cycle begin
+adde
+  arguments number: 2
+  goal: add value to list end
+addb
+  arguments number: 2
+  goal: add value to list begin
+size
+  arguments number: 1
+  goal: compute size of passed list
+sizec:
+  arguments number: 1
+  goal: compute list, then compute size of resulting list
+concat:
+  arguments number: 2
+  goal: concat 2 lists
+set:
+  arguments number: 3
+  goal: set element to specific position in list
+  
+Also there are math operation, but there are obvious.
 
 
 
