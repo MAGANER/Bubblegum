@@ -22,20 +22,26 @@ Output functions can take any number of arguments.
 All lists are computed recursivly.
 (printl (+ 2 (* 1 2 4 5 6) 5)))
 
+
 # Types
 1. Integer
 2. Float
 3. Bool
 4. String
 5. List
+6. None
 
-# Able operators
-arithmetical: + - * / 
-logical: and or xor not = > < >= <=
-
-#Variable creation
+# Variable creation
+~~~
 (defvar var_name value)
+~~~
+You can't create "empty" variable,
+but if you need it, you can init var with None.
+After variable will be able to get any value of any type.
+If variable has "real" type, it can take values of this type only.
+Sure, value can be computable expression.
 
-#Function creation
+# Function creation
+~~~
 (defn (arg1 argn) (body))
-
+~~~
